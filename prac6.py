@@ -24,11 +24,14 @@ def AddStudent():
         s = str(input("Введіть назву предмету (Щоб закінчити ввод предметів і оцінок - введіть STOP): "))
         if (s == "STOP"):
             break
-        try:
-            m = int(input(f"Введіть оцінку предмета {s} (числом): "))
-        except:
-            print("Некоректно введені дані")
-            return
+        while (True):
+            try:
+                m = int(input(f"Введіть оцінку предмета {s} (числом): "))
+                break
+            except:
+                print("Некоректно введені дані")
+                continue
+
         sub.append(s)
         mark.append(m)
 
@@ -46,8 +49,8 @@ def AddStudent():
     for st in allStudents:
         if(st.get("PIB") == pib):
             print(
-                "Такий студент вже є у списку",
-                "\n1 - Це інший студент, внести його в список",
+                "Такий студент вже є у списку\n",
+                "1 - Це інший студент, внести його в список",
                 "\n2 - Змінити дані студента"
                 )
             try:
