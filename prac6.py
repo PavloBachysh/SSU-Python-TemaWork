@@ -68,7 +68,65 @@ def AddStudent():
 
     allStudents.append(student)
 
+# Функція сортування студентів за обраним критерієм
+def SortStudents():
+    # Перевірка чи є студенти для сортування
+    if len(allStudents) == 0:
+        print("Список студентів порожній")
+        return
 
+    # Вибір критерію сортування
+    print("\nКритерії сортування:")
+    print("1 - За групою")
+    print("2 - За ПІБ")
+    print("3 - За курсом")
+    print("0 - Закінчити сортування")
+
+    try:
+        sortChoice = int(input("Оберіть критерій сортування: "))
+    except:
+        print("Некоректно введені дані")
+        return
+
+    if sortChoice == 0:
+        return
+
+    # Вибір порядку сортування
+    print("\nПорядок сортування:")
+    print("1 - За зростанням (від А до Я, від меншого до більшого)")
+    print("2 - За спаданням (від Я до А, від більшого до меншого)")
+
+    try:
+        orderChoice = int(input("Оберіть порядок сортування: "))
+    except:
+        print("Некоректно введені дані")
+        return
+
+    if orderChoice == 2:
+        reverseOrder = True
+    else:
+        reverseOrder = False
+
+
+    # Сортування словнику за обраним критерієм
+    match sortChoice:
+        case 1:
+            # Сортування за групою
+            allStudents.sort(key=lambda student: student["Group"], reverse=reverseOrder)
+
+        case 2:
+            # Сортування за ПІБ
+            allStudents.sort(key=lambda student: student["PIB"], reverse=reverseOrder)
+
+        case 3:
+            # Сортування за курсом
+            allStudents.sort(key=lambda student: student["Course"], reverse=reverseOrder)
+
+        case _:
+            print("Некоректний вибір критерію сортування.Вихід з сортування")
+            return
+
+    print("Словник успішно відсортовано")
 
 
 #Сам функціонал програми
@@ -91,7 +149,7 @@ while(True):
         case 2:
             print("Видалення")
         case 3:
-            print("Сортування")
+            SortStudents()
         case 4:
             print("Вивід")
         case 5:
