@@ -68,7 +68,53 @@ def AddStudent():
 
     allStudents.append(student)
 
+#Фунція друку даних
+def out ():
+    while True:
+        print(
+            "1 - вивести дані усіх студентів",
+            "\n2 - вивести дані одного студента"
+            )
+        try:
+            check = int(input("Оберіть одну з запропонованих функцій: "))
+        except:
+            print("Некоректно введені дані")
+            continue
+        if check != 1 and check!=2:
+            continue
+        break
 
+    match check:
+        case 1:
+            if not allStudents:
+                print("Список студентів порожній.")
+                return
+
+            for st in allStudents:
+                print(f"\n====================")
+                print(f"ПІБ: {st['PIB']}")
+                print(f"Група: {st['Group']}")
+                print(f"Курс: {st['Course']}")
+                print("Предмети та оцінки:")
+                for subj, mark in st["Subjects"].items():
+                    print(f"  - {subj}: {mark}")
+
+        case 2:
+            search_pib = input("Введіть ПІБ студента: ")
+            found = 0
+            for st in allStudents:
+                if st["PIB"] == search_pib:
+                    print("\n=== Інформація про студента ===")
+                    print(f"ПІБ: {st['PIB']}")
+                    print(f"Група: {st['Group']}")
+                    print(f"Курс: {st['Course']}")
+                    print("Предмети та оцінки:")
+                    for subj, mark in st["Subjects"].items():
+                        print(f"  - {subj}: {mark}")
+                    found += 1
+
+            if not found:
+                print("\nСтудента з таким ПІБ не знайдено.")
 
 
 #Сам функціонал програми
@@ -94,7 +140,7 @@ while(True):
             print("Сортування")
         case 4:
             print("Вивід")
+            out()
         case 5:
             break
-
 
