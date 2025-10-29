@@ -175,6 +175,63 @@ def SortStudents():
             return
 
     print("Словник успішно відсортовано")
+
+def DeleteStudent():
+    if not allStudents:
+        print("Список студентів порожній.")
+        return
+
+    pib_delete = input("Введіть ПІБ студента, якого потрібно видалити: ")
+
+    #Пошук студентів з таким ПІБ
+    match = [st for st in allStudents if st["PIB"] == pib_delete]
+
+    #Якщо не знайдено
+    if not match:
+        print(f"Студента з ПІБ '{pib_delete}' не знайдено.")
+        return
+
+    #Якщо знайдено декілька
+    if len(match) > 1:
+        print(f"Знайдено кілька студентів з ПІБ '{pib_delete}':")
+        for i, st in enumerate(match, 1):
+            print(f"\n{i}. Група: {st['Group']}, Курс: {st['Course']}")
+            print("   Предмети та оцінки:")
+            for subj, mark in st["Subjects"].items():
+                print(f"     - {subj}: {mark}")
+
+        #Вибір студента
+        while True:
+            choice_numb = input("\nВведіть номер студента, якого потрібно видалити: ")
+            if not choice_numb.isdigit():
+                print("Потрібно ввести число. Спробуйте ще раз.")
+                continue
+
+            choice = int(choice_numb)
+            if choice < 1 or choice > len(match):
+                print("Номер поза межами списку. Спробуйте ще раз.")
+                continue
+            else:
+                break
+
+        confirm = input("Ви впевнені, що хочете видалити цього студента? (так/ні): ")
+        if confirm.lower() != "так":
+            print("Видалення скасовано.")
+            return
+
+        #Видаляємо обраного студента
+        stud_remove = match[choice - 1]
+        allStudents.remove(stud_remove)
+        print(f"Студента '{stud_remove['PIB']}' видалено.")
+
+    #Якщо знайдено лише одного
+    else:
+        confirm = input(f"Ви впевнені, що хочете видалити '{match[0]['PIB']}'? (так/ні): ")
+        if confirm.lower() == "так":
+            allStudents.remove(match[0])
+            print(f"Студента '{pib_delete}' видалено.")
+        else:
+            print("Видалення скасовано.")
 #Сам функціонал програми
 while(True):
     print(
@@ -193,7 +250,7 @@ while(True):
         case 1:
             AddStudent()
         case 2:
-            print("Видалення")
+            DeleteStudent()
         case 3:
             print("Сортування")
             SortStudents()
